@@ -1,8 +1,22 @@
 import Lottie from "lottie-react";
 import food from "../assets/food.json";
 import { Link } from "react-router-dom";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "../../firebase";
 
 const Landing = () => {
+  const handleGoogleLogin = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // You can access user details here
+        console.log(result.user);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <>
       <div className="container-fluid">
@@ -21,7 +35,10 @@ const Landing = () => {
                   View Menus
                 </Link>
               </button>
-              <button className="btn btn-lg btn-secondary my-3 mx-3 text-white">
+              <button
+                onClick={handleGoogleLogin}
+                className="btn btn-lg btn-secondary my-3 mx-3 text-white"
+              >
                 Login
               </button>
             </div>
