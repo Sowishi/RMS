@@ -1,5 +1,6 @@
 import Lottie from "lottie-react";
 import food from "../assets/food.json";
+import { Link } from "react-router-dom";
 
 const Landing = () => {
   return (
@@ -15,7 +16,11 @@ const Landing = () => {
                 Experience convenience like never before – your table is just a
                 tap away.
               </h4>
-              <button className="btn btn-lg btn-primary my-3">View Menu</button>
+              <button className="btn btn-lg btn-primary my-3">
+                <Link to={"/menu"} className="text-white nav-link">
+                  View Menus
+                </Link>
+              </button>
               <button className="btn btn-lg btn-secondary my-3 mx-3 text-white">
                 Login
               </button>

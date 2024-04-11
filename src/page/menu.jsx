@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
+import { Link } from "react-router-dom";
 const Menu = () => {
   const [menus, setMenu] = useState([
     { title: "Inasal", price: 500, description: "fkldjfj" },
@@ -36,7 +37,9 @@ const Menu = () => {
                     little bit longer.
                   </Card.Text>
                   <button className="btn btn-primary w-100">
-                    View More Details!
+                    <Link to={"/view-more"} className="text-white nav-link">
+                      View More Details!
+                    </Link>
                   </button>
                 </Card.Body>
               </Card>
