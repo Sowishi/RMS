@@ -1,17 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
 import { Link } from "react-router-dom";
 import DefaultLayout from "../layout/default";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../../firebase";
 const Menu = () => {
-  const [menus, setMenu] = useState([
-    { title: "Inasal", price: 500, description: "fkldjfj" },
-    { title: "Inasal", price: 500, description: "fkldjfj" },
-    { title: "Inasal", price: 500, description: "fkldjfj" },
-    { title: "Inasal", price: 500, description: "fkldjfj" },
-    { title: "Inasal", price: 500, description: "fkldjfj" },
-    { title: "Inasal", price: 500, description: "fkldjfj" },
-  ]);
+  const menuRef = collection(db, "menu");
+  const [menus, setMenus] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(menuRef, (snapshot) => {
+      const newData = [];
+      snapshot.forEach((doc) => {
+        newData.push({ id: doc.id, ...doc.data() });
+      });
+
+      setMenus(newData);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <DefaultLayout>
@@ -23,7 +34,7 @@ const Menu = () => {
                 <Card>
                   <Card.Img
                     variant="top"
-                    src="https://fastly.picsum.photos/id/784/200/300.jpg?hmac=LIWlcHgxQH79XHKNji8Jin_KakntjYyd9VXyckNYFbE"
+                    src={menu.image}
                     style={{ height: 300, objectFit: "cover" }}
                   />
                   <Card.Body>
@@ -35,11 +46,7 @@ const Menu = () => {
                         </h5>
                       </div>
                     </Card.Title>
-                    <Card.Text>
-                      This is a longer card with supporting text below as a
-                      natural lead-in to additional content. This content is a
-                      little bit longer.
-                    </Card.Text>
+                    <Card.Text>{menu.description}</Card.Text>
                     <button className="btn btn-primary w-100">
                       <Link to={"/view-more"} className="text-white nav-link">
                         View More Details!

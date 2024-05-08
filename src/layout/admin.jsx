@@ -41,6 +41,7 @@ const AdminLayout = ({ children }) => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
+                    <Dropdown.Item href="/menu">View Menu Live</Dropdown.Item>
                     <Dropdown.Item href="/">Logout</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
