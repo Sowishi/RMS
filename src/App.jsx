@@ -1,11 +1,12 @@
 import Footer from "./layout/footer";
-import TestModal from "./modal";
 import AdminLogin from "./page/adminLogin";
 import AdminDashboard from "./page/adminDashboard";
 import Landing from "./page/landing";
 import Menu from "./page/menu";
 import ViewMore from "./page/view-more";
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
         </Routes>
       </div>
+      <ToastContainer />
     </>
   );
 }

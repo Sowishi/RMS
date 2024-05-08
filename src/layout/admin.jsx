@@ -1,7 +1,8 @@
-import { FaBars } from "react-icons/fa";
+import { FaArrowDown, FaBars, FaUser } from "react-icons/fa";
 import Header from "../layout/header";
-import { Offcanvas } from "react-bootstrap";
+import { Dropdown, Offcanvas } from "react-bootstrap";
 import { useState } from "react";
+import { FaGear } from "react-icons/fa6";
 
 const AdminLayout = ({ children }) => {
   const [show, setShow] = useState(false);
@@ -26,9 +27,24 @@ const AdminLayout = ({ children }) => {
               <FaBars
                 style={{ cursor: "pointer" }}
                 onClick={handleShow}
-                size={"40px"}
+                size={"30px"}
               />
-              <h2>Admin Dashboard</h2>
+              <div className="wrapper d-flex jsutify-content-center align-items-center">
+                <h3 className="mx-2">Admin Dashboard</h3>
+                <Dropdown>
+                  <Dropdown.Toggle id="dropdown-basic">
+                    <FaGear
+                      color="white"
+                      style={{ cursor: "pointer" }}
+                      size={"20px"}
+                    />
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item href="/">Logout</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
             </div>
           </div>
           <div className="col-12">{children}</div>
