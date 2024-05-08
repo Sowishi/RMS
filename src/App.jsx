@@ -1,6 +1,7 @@
 import Footer from "./layout/footer";
 import TestModal from "./modal";
-import Admin from "./page/admin";
+import AdminLogin from "./page/adminLogin";
+import AdminDashboard from "./page/adminDashboard";
 import Landing from "./page/landing";
 import Menu from "./page/menu";
 import ViewMore from "./page/view-more";
@@ -14,7 +15,8 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/view-more" element={<ViewMore />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
         </Routes>
       </div>
     </>
