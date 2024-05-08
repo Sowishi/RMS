@@ -1,11 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RMSModal from "../components/modal";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import DefaultLayout from "../layout/default";
+import { useParams } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+import { Spinner } from "react-bootstrap";
 
 const ViewMore = () => {
   const [showInfoModal, setShowInfoModal] = useState(false);
+  const { productID } = useParams();
+  const [product, setProduct] = useState();
+
+  useEffect(() => {
+    getProduct();
+  }, []);
+
+  const getProduct = async () => {
+    const docRef = doc(db, "menu", productID);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setProduct(docSnap.data());
+      return;
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  };
 
   return (
     <DefaultLayout>
@@ -50,41 +72,41 @@ const ViewMore = () => {
             <button className="btn btn-primary w-100 btn-lg">Confirm</button>
           </Modal.Body>
         </RMSModal>
-        <div className="row mx-5">
-          <div className="col-lg-5 d-flex justify-content-center align-items-center">
-            <img
-              style={{ width: "100%", height: 400 }}
-              src="https://fastly.picsum.photos/id/254/200/300.jpg?hmac=VoOUXxjWvbLuWPBSHy_pbMAoLSYCaO-3drnOhwvA2yY"
-              alt=""
-            />
-          </div>
-          <div className="col-lg-7 text-white">
-            <div className="wrapper">
-              <h1>Inasal</h1>
-              <h3 className="text-secondary">₱500</h3>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam
-                eius, libero eligendi temporibus facilis placeat distinctio
-                ducimus repellendus nam, totam non dignissimos exercitationem
-                ullam enim tempore optio excepturi quasi rerum dicta repellat
-                iure illum, tenetur accusantium dolorum. Consectetur quas
-                molestiae soluta, a praesentium assumenda laborum, atque
-                numquam, dolores ut quaerat?
-              </p>
-              <div className="wrapper d-flex justify-content-end align-items-center">
-                <button
-                  className="btn btn-primary btn-lg"
-                  onClick={() => setShowInfoModal(true)}
-                >
-                  Reserve
-                </button>
-                <button className="btn btn-secondary btn-lg text-white m mx-3">
-                  Order
-                </button>
+        {product ? (
+          <div className="row mx-5">
+            <div className="col-lg-5 d-flex justify-content-center align-items-center">
+              <img
+                style={{ width: "100%", height: 400 }}
+                src={product.image}
+                alt=""
+              />
+            </div>
+            <div className="col-lg-7 text-white">
+              <div className="wrapper">
+                <h1>{product.title}</h1>
+                <h3 className="text-secondary">₱{product.price}</h3>
+                <p>{product.description}</p>
+                <div className="wrapper d-flex justify-content-end align-items-center">
+                  <button
+                    className="btn btn-primary btn-lg"
+                    onClick={() => setShowInfoModal(true)}
+                  >
+                    Reserve
+                  </button>
+                  <button className="btn btn-secondary btn-lg text-white m mx-3">
+                    Order
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <>
+            <div className="container-fluid d-flex justify-content-center align-items-center">
+              <Spinner variant="primary" />
+            </div>
+          </>
+        )}
       </div>
     </DefaultLayout>
   );

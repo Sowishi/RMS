@@ -48,7 +48,10 @@ const Menu = () => {
                     </Card.Title>
                     <Card.Text>{menu.description}</Card.Text>
                     <button className="btn btn-primary w-100">
-                      <Link to={"/view-more"} className="text-white nav-link">
+                      <Link
+                        to={`/view-more/${menu.id}`}
+                        className="text-white nav-link"
+                      >
                         View More Details!
                       </Link>
                     </button>
