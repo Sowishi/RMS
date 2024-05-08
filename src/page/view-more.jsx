@@ -45,7 +45,7 @@ const ViewMore = () => {
     addDoc(cartRef, {
       ownerName: currentUser.displayName,
       ownerID: currentUser.uid,
-      product: product,
+      product: { ...product, quantity: 1 },
       createdAt: serverTimestamp(),
     }).then(() => {
       toast("Added to cart!");

@@ -2,7 +2,7 @@ import { useContext } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RmsContext from "../RmsContext";
 import { Dropdown, Badge } from "react-bootstrap";
 import { auth } from "../../firebase";
@@ -14,11 +14,14 @@ const Header = () => {
   const { auth, currentUser, disableAuth, updateCurrentUser } =
     useContext(RmsContext);
 
+  const navigate = useNavigate();
+
   const handleLogout = async () => {
     try {
       disableAuth();
       updateCurrentUser(null);
       toast("See you again!");
+      navigate("/");
     } catch (error) {
       console.error("Error signing out:", error.message);
     }
@@ -28,8 +31,10 @@ const Header = () => {
     <>
       <Navbar expand="lg" className="bg-dark navbar-dark">
         <Container>
-          <Navbar.Brand href="#home">
-            <h1 className="fw-bold">RMS</h1>
+          <Navbar.Brand href="/">
+            <Link className="text-white nav-link" to={"/"}>
+              <h1 className="fw-bold">RMS</h1>
+            </Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -65,7 +70,7 @@ const Header = () => {
                     <h4 className="mx-3">{currentUser.displayName}</h4>
 
                     <Dropdown>
-                      <Dropdown.Toggle variant="success" id="dropdown-basic">
+                      <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                         <img
                           style={{
                             width: "35px",
