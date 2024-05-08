@@ -4,13 +4,23 @@ import { Link } from "react-router-dom";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../firebase";
 import DefaultLayout from "../layout/default";
+import { useContext } from "react";
+import RmsContext from "../RmsContext";
+import google from "../assets/google.png";
 
 const Landing = () => {
+  const {
+    enableAuth,
+    updateCurrentUser,
+    auth: rmsAuth,
+  } = useContext(RmsContext);
+
   const handleGoogleLogin = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
-        // You can access user details here
+        enableAuth();
+        updateCurrentUser(result.user);
         console.log(result.user);
       })
       .catch((error) => {
@@ -32,17 +42,31 @@ const Landing = () => {
                   Experience convenience like never before – your table is just
                   a tap away.
                 </h4>
-                <button className="btn btn-lg btn-primary my-3">
-                  <Link to={"/menu"} className="text-white nav-link">
-                    View Menus
+
+                {!rmsAuth && (
+                  <button
+                    onClick={handleGoogleLogin}
+                    className="btn my-3 text-white"
+                  >
+                    <img
+                      style={{
+                        width: "300px",
+                        height: "100px",
+                        objectFit: "contain",
+                      }}
+                      src={google}
+                      alt=""
+                    />
+                  </button>
+                )}
+                {rmsAuth && (
+                  <Link
+                    to={"/menu"}
+                    className="btn btn-primary my-3 w-100 py-3 text-white fw-bold"
+                  >
+                    View Menu
                   </Link>
-                </button>
-                <button
-                  onClick={handleGoogleLogin}
-                  className="btn btn-lg btn-secondary my-3 mx-3 text-white"
-                >
-                  Login
-                </button>
+                )}
               </div>
             </div>
             <div className="col-lg-6 d-flex justify-content-center align-items-center">

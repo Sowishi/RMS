@@ -1,17 +1,28 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import RMSModal from "../components/modal";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import DefaultLayout from "../layout/default";
 import { useParams } from "react-router-dom";
-import { doc, getDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 import { Spinner } from "react-bootstrap";
+import { FaCartShopping } from "react-icons/fa6";
+import RmsContext from "../RmsContext";
+import { toast } from "react-toastify";
 
 const ViewMore = () => {
   const [showInfoModal, setShowInfoModal] = useState(false);
   const { productID } = useParams();
   const [product, setProduct] = useState();
+
+  const { currentUser } = useContext(RmsContext);
 
   useEffect(() => {
     getProduct();
@@ -27,6 +38,18 @@ const ViewMore = () => {
       console.log("No such document!");
       return null;
     }
+  };
+
+  const handleAddToCart = () => {
+    const cartRef = collection(db, "cart");
+    addDoc(cartRef, {
+      ownerName: currentUser.displayName,
+      ownerID: currentUser.uid,
+      product: product,
+      createdAt: serverTimestamp(),
+    }).then(() => {
+      toast("Added to cart!");
+    });
   };
 
   return (
@@ -89,12 +112,9 @@ const ViewMore = () => {
                 <div className="wrapper d-flex justify-content-end align-items-center">
                   <button
                     className="btn btn-primary btn-lg"
-                    onClick={() => setShowInfoModal(true)}
+                    onClick={handleAddToCart}
                   >
-                    Reserve
-                  </button>
-                  <button className="btn btn-secondary btn-lg text-white m mx-3">
-                    Order
+                    Add to Cart <FaCartShopping />
                   </button>
                 </div>
               </div>
