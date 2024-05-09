@@ -36,6 +36,16 @@ const Transaction = () => {
       });
   };
 
+  const getStatusBackground = (type) => {
+    if (type == "pending") {
+      return "bg-primary";
+    } else if (type == "on process") {
+      return "bg-secondary";
+    } else if (type == "completed") {
+      return "bg-success";
+    }
+  };
+
   useEffect(() => {
     getProducts();
   }, []);
@@ -77,7 +87,13 @@ const Transaction = () => {
                     })}
                   </td>
                   <td>₱{product.total}</td>
-                  <td>{product.status}</td>
+                  <td
+                    className={`${getStatusBackground(
+                      product.status
+                    )} text-white`}
+                  >
+                    {product.status}
+                  </td>
                   <td>
                     <h5 className="mb-0 fw-bold">{product.type}</h5>
                   </td>
