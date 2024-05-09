@@ -24,6 +24,7 @@ const Cart = () => {
   const [address, setAddress] = useState();
   const [phone, setPhone] = useState();
   const [remarks, setRemarks] = useState();
+  const [reserve, setReserve] = useState(false);
 
   useEffect(() => {
     const cartRef = collection(db, "cart");
@@ -86,7 +87,7 @@ const Cart = () => {
     const orderRef = collection(db, "order");
     const data = {
       createdAt: serverTimestamp(),
-      type: "checkout",
+      type: reserve ? "reserve" : "checkout",
       products: JSON.stringify(carts),
       ownerID: currentUser.uid,
       details: {
@@ -114,7 +115,9 @@ const Cart = () => {
     <DefaultLayout>
       <RMSModal show={checkout} onHide={() => setCheckout(false)}>
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">Checkout</Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">
+            {reserve ? "Reserve" : "Checkout"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Stripe />
@@ -158,9 +161,11 @@ const Cart = () => {
           </Form>
           <button
             onClick={handleCheckout}
-            className="btn btn-primary w-100 btn-lg"
+            className={`btn ${
+              reserve ? "btn-success" : "btn-primary"
+            } w-100 btn-lg`}
           >
-            Checkout
+            {reserve ? "Reserve" : "Checkout"}
           </button>
         </Modal.Body>
       </RMSModal>
@@ -273,10 +278,21 @@ const Cart = () => {
               </Accordion.Item>
             </Accordion>
             <div className="buttons d-flex justify-content-around align-items-center mt-3">
-              <button className="btn btn-warning px-5">Reserved</button>
+              <button
+                className="btn btn-warning px-5"
+                onClick={() => {
+                  setCheckout(true);
+                  setReserve(true);
+                }}
+              >
+                Reserved
+              </button>
               <button
                 className="btn btn-primary px-5"
-                onClick={() => setCheckout(true)}
+                onClick={() => {
+                  setCheckout(true);
+                  setReserve(false);
+                }}
               >
                 Checkout
               </button>
