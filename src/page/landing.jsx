@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../firebase";
 import DefaultLayout from "../layout/default";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import RmsContext from "../RmsContext";
 import google from "../assets/google.png";
 

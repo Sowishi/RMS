@@ -95,6 +95,8 @@ const Cart = () => {
         address,
         remarks,
       },
+      total: total,
+      status: "pending",
     };
     addDoc(orderRef, data).then(() => {
       toast("Successfully Checkout!");
