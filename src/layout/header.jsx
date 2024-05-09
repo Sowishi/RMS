@@ -61,7 +61,6 @@ const Header = () => {
                     <div className="wrapper d-flex justify-content-center align-items-center">
                       <h5>Cart</h5>
                       <FaCartShopping className="mx-1" />
-                      <Badge bg="primary">5</Badge>
                     </div>
                   </Link>
                 </Nav.Link>

@@ -1,15 +1,29 @@
 import { FaShoppingCart } from "react-icons/fa";
 import DefaultLayout from "../layout/default";
 import { useContext, useEffect, useState } from "react";
-import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  serverTimestamp,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 import RmsContext from "../RmsContext";
 import { toast } from "react-toastify";
-import { Accordion } from "react-bootstrap";
+import { Accordion, Form, Modal, Table } from "react-bootstrap";
+import RMSModal from "../components/modal";
+import Stripe from "../components/stripe";
 
 const Cart = () => {
   const [carts, setCarts] = useState([]);
   const { currentUser } = useContext(RmsContext);
+  const [checkout, setCheckout] = useState(false);
+  const [name, setName] = useState();
+  const [address, setAddress] = useState();
+  const [phone, setPhone] = useState();
+  const [remarks, setRemarks] = useState();
 
   useEffect(() => {
     const cartRef = collection(db, "cart");
@@ -61,6 +75,34 @@ const Cart = () => {
     setCarts(output);
   };
 
+  function handleDeleteAllCart() {
+    carts.map((cart) => {
+      const cartDoc = doc(db, "cart", cart.id);
+      deleteDoc(cartDoc);
+    });
+  }
+
+  const handleCheckout = () => {
+    const orderRef = collection(db, "order");
+    const data = {
+      createdAt: serverTimestamp(),
+      type: "checkout",
+      products: JSON.stringify(carts),
+      ownerID: currentUser.uid,
+      details: {
+        name,
+        phone,
+        address,
+        remarks,
+      },
+    };
+    addDoc(orderRef, data).then(() => {
+      toast("Successfully Checkout!");
+      setCheckout(false);
+      handleDeleteAllCart();
+    });
+  };
+
   let total = 0;
   carts.map((cart) => {
     total += cart.product.price * cart.product.quantity;
@@ -68,12 +110,65 @@ const Cart = () => {
 
   return (
     <DefaultLayout>
+      <RMSModal show={checkout} onHide={() => setCheckout(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">Checkout</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Stripe />
+          <Form>
+            <Form.Group
+              className="mb-3 mt-3"
+              controlId="exampleForm.ControlInput1"
+            >
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(event) => setName(event.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Contact Number</Form.Label>
+              <Form.Control
+                onChange={(event) => setPhone(event.target.value)}
+                type="text"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Address</Form.Label>
+              <Form.Control
+                onChange={(event) => setAddress(event.target.value)}
+                as="textarea"
+                rows={3}
+              />
+            </Form.Group>
+            <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>Remarks</Form.Label>
+              <Form.Control
+                onChange={(event) => setRemarks(event.target.value)}
+                as="textarea"
+                rows={3}
+              />
+            </Form.Group>
+          </Form>
+          <button
+            onClick={handleCheckout}
+            className="btn btn-primary w-100 btn-lg"
+          >
+            Checkout
+          </button>
+        </Modal.Body>
+      </RMSModal>
       <div className="container-fluid">
         <div className="row">
           <div className="col-7 text-white">
             <h1 className="fw-bold my-3">
               Your Cart <FaShoppingCart />
             </h1>
+
             {carts.length >= 1 && (
               <table class="table table-striped p-3">
                 <thead className="py-3">
@@ -154,11 +249,11 @@ const Cart = () => {
                   <div className="row">
                     <div className="col-12">
                       <p className="fw-bold">Summarization</p>
-                      {carts.map((cart) => {
+                      {carts.map((cart, index) => {
                         return (
                           <>
                             <div
-                              key={cart.id}
+                              key={index}
                               className="wrapper d-flex justify-content-between align-items-center"
                             >
                               <p>{cart.product.title}</p>
@@ -177,7 +272,12 @@ const Cart = () => {
             </Accordion>
             <div className="buttons d-flex justify-content-around align-items-center mt-3">
               <button className="btn btn-warning px-5">Reserved</button>
-              <button className="btn btn-primary px-5">Checkout</button>
+              <button
+                className="btn btn-primary px-5"
+                onClick={() => setCheckout(true)}
+              >
+                Checkout
+              </button>
             </div>
           </div>
         </div>

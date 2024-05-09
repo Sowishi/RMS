@@ -55,46 +55,6 @@ const ViewMore = () => {
   return (
     <DefaultLayout>
       <div className="container-fluid">
-        <RMSModal show={showInfoModal} onHide={() => setShowInfoModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">
-              Please Enter your information
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Full Name</Form.Label>
-                <Form.Control type="email" placeholder="name@example.com" />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Contact Number</Form.Label>
-                <Form.Control type="email" placeholder="name@example.com" />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Address</Form.Label>
-                <Form.Control type="email" placeholder="name@example.com" />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea1"
-              >
-                <Form.Label>Remarks</Form.Label>
-                <Form.Control as="textarea" rows={3} />
-              </Form.Group>
-            </Form>
-            <button className="btn btn-primary w-100 btn-lg">Confirm</button>
-          </Modal.Body>
-        </RMSModal>
         {product ? (
           <div className="row mx-5">
             <div className="col-lg-5 d-flex justify-content-center align-items-center">
