@@ -1,8 +1,9 @@
 import { FaArrowDown, FaBars, FaUser } from "react-icons/fa";
 import Header from "../layout/header";
-import { Dropdown, Offcanvas } from "react-bootstrap";
+import { Dropdown, ListGroup, Offcanvas } from "react-bootstrap";
 import { useState } from "react";
 import { FaGear } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const AdminLayout = ({ children }) => {
   const [show, setShow] = useState(false);
@@ -14,11 +15,26 @@ const AdminLayout = ({ children }) => {
       <div className="container-fluid">
         <Offcanvas show={show} onHide={handleClose}>
           <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+            <Offcanvas.Title>Admin Tools</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            Some text as placeholder. In real life you can have the elements you
-            have chosen. Like, text, images, lists, etc.
+            <ListGroup as="ul">
+              <ListGroup.Item as="li">
+                <Link className="nav-link" to={"/admin-dashboard"}>
+                  Menu
+                </Link>
+              </ListGroup.Item>
+              <ListGroup.Item as="li">
+                <Link className="nav-link" to={"/admin-transaction"}>
+                  Orders
+                </Link>
+              </ListGroup.Item>
+              <ListGroup.Item as="li">
+                <Link className="nav-link" to={"/"}>
+                  View Site
+                </Link>
+              </ListGroup.Item>
+            </ListGroup>
           </Offcanvas.Body>
         </Offcanvas>
         <div className="row">
@@ -41,7 +57,6 @@ const AdminLayout = ({ children }) => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item href="/menu">View Menu Live</Dropdown.Item>
                     <Dropdown.Item href="/">Logout</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>

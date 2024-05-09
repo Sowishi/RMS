@@ -70,6 +70,7 @@ const AdminLogin = () => {
                   <Form.Control
                     onChange={(event) => setPassword(event.target.value)}
                     placeholder="Enter email"
+                    type="password"
                   />
                 </div>
               </Form.Group>

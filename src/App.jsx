@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import RmsProvider from "./RmsProvider";
 import Cart from "./page/cart";
 import Transaction from "./page/transcation";
+import AdminTransaction from "./page/admin-transaction";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/view-more/:productID" element={<ViewMore />} />
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            <Route path="/admin-transaction" element={<AdminTransaction />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/transaction" element={<Transaction />} />
           </Routes>
