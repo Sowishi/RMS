@@ -1,0 +1,3 @@
+const RmsPassword = `4983958340rsdfjlsadfsldfjweru834urjdskfhsd34938w5rwevhfadkjfhsdfhsadlfhsdfsdfjksadgha9w84573948tyeratkhsdktfhesjktrhwkjfhsdfsd8fsdyfh`;
+
+export default RmsPassword;

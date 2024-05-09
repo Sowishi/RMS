@@ -4,6 +4,7 @@ import { Dropdown, ListGroup, Offcanvas } from "react-bootstrap";
 import { useState } from "react";
 import { FaGear } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import RmsPassword from "../password";
 
 const AdminLayout = ({ children }) => {
   const [show, setShow] = useState(false);
@@ -20,12 +21,18 @@ const AdminLayout = ({ children }) => {
           <Offcanvas.Body>
             <ListGroup as="ul">
               <ListGroup.Item as="li">
-                <Link className="nav-link" to={"/admin-dashboard"}>
+                <Link
+                  className="nav-link"
+                  to={`/admin-dashboard/${RmsPassword}`}
+                >
                   Menu
                 </Link>
               </ListGroup.Item>
               <ListGroup.Item as="li">
-                <Link className="nav-link" to={"/admin-transaction"}>
+                <Link
+                  className="nav-link"
+                  to={`/admin-transaction/${RmsPassword}`}
+                >
                   Orders
                 </Link>
               </ListGroup.Item>

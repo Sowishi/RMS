@@ -14,7 +14,8 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import RmsPassword from "../password";
 
 const AdminDashboard = () => {
   const [adding, setAdding] = useState(false);
@@ -29,6 +30,13 @@ const AdminDashboard = () => {
   const [currentProduct, setCurrentProduct] = useState();
 
   const menuRef = collection(db, "menu");
+
+  const { password } = useParams();
+  const navigate = useNavigate();
+
+  if (password !== RmsPassword) {
+    navigate("/admin");
+  }
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);

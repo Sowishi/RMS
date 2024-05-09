@@ -11,12 +11,22 @@ import {
 import { db } from "../../firebase";
 import RmsContext from "../RmsContext";
 import { toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router-dom";
+import RmsPassword from "../password";
 
 const AdminTransaction = () => {
   const [products, setProducts] = useState([]);
 
   const { currentUser } = useContext(RmsContext);
   const productsRef = collection(db, "order");
+
+  const { password } = useParams();
+
+  const navigate = useNavigate();
+
+  if (password !== RmsPassword) {
+    navigate("/admin");
+  }
 
   const getProducts = () => {
     onSnapshot(productsRef, (snapshot) => {

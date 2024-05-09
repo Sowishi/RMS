@@ -7,6 +7,7 @@ import Lottie from "lottie-react";
 import admin from "../assets/admin.json";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import RmsPassword from "../password";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const AdminLogin = () => {
 
   const handleLogin = () => {
     if (password == "admin" && email == "admin") {
-      navigate("/admin-dashboard");
+      navigate(`/admin-dashboard/${RmsPassword}`);
     } else {
       setError(true);
     }

@@ -22,8 +22,14 @@ function App() {
             <Route path="/menu" element={<Menu />} />
             <Route path="/view-more/:productID" element={<ViewMore />} />
             <Route path="/admin" element={<AdminLogin />} />
-            <Route path="/admin-dashboard" element={<AdminDashboard />} />
-            <Route path="/admin-transaction" element={<AdminTransaction />} />
+            <Route
+              path="/admin-dashboard/:password"
+              element={<AdminDashboard />}
+            />
+            <Route
+              path="/admin-transaction/:password"
+              element={<AdminTransaction />}
+            />
             <Route path="/cart" element={<Cart />} />
             <Route path="/transaction" element={<Transaction />} />
           </Routes>
